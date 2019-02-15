@@ -14,12 +14,18 @@
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add option="-lm" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="binary_fixed_point_tests.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fast_sine_tests.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.c">
