@@ -56,7 +56,7 @@ int BinaryFixedPointMathTests()
 
 		tmp1 = (float) (i3 >> binaryPoint) + (float) (i3 & binaryPointRemainderMask) / p;
 
-		printf("%f x %f = %f  ~  %f = 0x%02X.%06X = 0x%02X.%06X x 0x%02X.%06X\n\n",f1,f2,f3,tmp1,(i3>>binaryPoint)&0xFF,i3&binaryPointRemainderMask,(i1>>binaryPoint)&0xFF,i1&binaryPointRemainderMask,f2,(i2>>binaryPoint)&0xFF,i2&binaryPointRemainderMask);
+		printf("%f x %f = %f  ~  %f = 0x%02X.%06X = 0x%02X.%06X x 0x%02X.%06X\n\n", f1, f2, f3, tmp1, (i3>>binaryPoint)&0xFF, i3&binaryPointRemainderMask, (i1>>binaryPoint)&0xFF, i1&binaryPointRemainderMask, (i2>>binaryPoint)&0xFF,i2&binaryPointRemainderMask);
 
 	}
 
