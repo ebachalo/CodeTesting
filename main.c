@@ -1,7 +1,8 @@
 #include <stdio.h>
 
-extern int BinaryFixedPointMathTests();
-extern void FastSineTests();
+int BinaryFixedPointMathTests();
+void FastSineTests();
+void SquareRootTests();
 
 
 int main() {
@@ -9,5 +10,6 @@ int main() {
 	printf("\n **** Hello from main.c! ****\n\n");
 	BinaryFixedPointMathTests();
 	FastSineTests();
+	SquareRootTests();
 	return(0);
 }

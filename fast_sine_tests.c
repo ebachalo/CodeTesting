@@ -2,9 +2,12 @@
 #include <math.h>
 #include <stdint.h>
 
-#ifdef linux
+#ifdef __linux__
 #include <time.h>
-#endif // linux
+#endif // __linux__
+
+#include "bfp.h"
+
 
 /*
 
@@ -12,10 +15,7 @@ Testing fast and accurate sine functions specifically
   https://www.gamedev.net/forums/topic/621589-extremely-fast-sin-approximation/
 
 */
-#define binaryPoint 24
-#define binaryPointRemainderMask 0xFFFFFF
 
-double p;
 int32_t a;
 int32_t b;
 int32_t c;
@@ -28,31 +28,8 @@ const double B	 = -0.16528911397014738207016302002888890;
 const double C	 =  0.99969198629596757779830113868360584;
 
 
-int32_t double_to_bfp( double f ) {
-	int32_t i;
-	i = (int32_t)f << binaryPoint;
-	i += (int32_t) ( (f - (double)((int32_t)f)) * p );
-	return i;
-}
-
-double bfp_to_double( int32_t i ) {
-	return (double) (i >> binaryPoint) + (double) (i & binaryPointRemainderMask) / p;
-}
-
-
-int32_t bfp_multiply( int32_t i1, int32_t i2 ) {
-	int32_t i3;
-	int32_t j1 = (i1 >> 16);
-	int32_t j2 = (i2 >> 16);
-	i3 = ( j1 * j2 ) << 8;
-	i3 += ( j1 * (i2 & 0xFFFF) ) >> 8;
-	i3 += ( j2 * (i1 & 0xFFFF) ) >> 8;
-
-	return i3;
-}
 
 void myInit() {
-	p = pow(2,binaryPoint);
 	a = double_to_bfp(A);
 	b = double_to_bfp(B);
 	c = double_to_bfp(C);
@@ -173,9 +150,9 @@ void FastSineTests() {
 	double timeMine = 0;
 	double timeTmp = 0;
 
-#ifdef linux
+#ifdef __linux__
 	struct timespec  t;
-#endif // linux
+#endif // __linux__
 
 
 
@@ -187,44 +164,44 @@ void FastSineTests() {
 //		printf("%g ~ 0x%02X.%06X\n",fRads[i],(iRads[i]>>binaryPoint)&0xFF,iRads[i]&binaryPointRemainderMask);
 	}
 
-#ifdef linux
+#ifdef __linux__
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
 	timeTmp = (double) t.tv_sec + (double) t.tv_nsec * 0.000000001;
-#endif // linux
+#endif // __linux__
 	for(int i=0; i<numRads; i++){
 		fsin[i] = sin(fRads[i]);
   }
-#ifdef linux
+#ifdef __linux__
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
 	timeSin = (double) t.tv_sec + (double) t.tv_nsec * 0.000000001 - timeTmp;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
 	timeTmp = (double) t.tv_sec + (double) t.tv_nsec * 0.000000001;
-#endif // linux
+#endif // __linux__
 	for(int i=0; i<numRads; i++){
 		fFast[i] = fast_sin(fRads[i]);
   }
-#ifdef linux
+#ifdef __linux__
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
 	timeFast = (double) t.tv_sec + (double) t.tv_nsec * 0.000000001 - timeTmp;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
 	timeTmp = (double) t.tv_sec + (double) t.tv_nsec * 0.000000001;
-#endif // linux
+#endif // __linux__
 	for(int i=0; i<numRads; i++){
 		fSilver[i] = Silverware_fastsin(fRads[i]);
   }
-#ifdef linux
+#ifdef __linux__
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
 	timeSilver = (double) t.tv_sec + (double) t.tv_nsec * 0.000000001 - timeTmp;
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
 	timeTmp = (double) t.tv_sec + (double) t.tv_nsec * 0.000000001;
-#endif // linux
+#endif // __linux__
 	for(int i=0; i<numRads; i++){
 		imine[i] = myFastSine(iRads[i]);
   }
-#ifdef linux
+#ifdef __linux__
 	clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &t);
 	timeMine = (double) t.tv_sec + (double) t.tv_nsec * 0.000000001 - timeTmp;
-#endif // linux
+#endif // __linux__
 	for(int i=0; i<numRads; i++){
 		fmine[i] = bfp_to_double(imine[i]);
   }

@@ -22,6 +22,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename=".gitignore" />
+		<Unit filename="bfp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bfp.h" />
 		<Unit filename="binary_fixed_point_tests.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -29,6 +34,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="square_root_tests.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
